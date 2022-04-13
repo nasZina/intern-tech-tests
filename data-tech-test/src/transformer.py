@@ -12,7 +12,7 @@ class Transformer:
         self
 
     def read_orders(self) -> pd.DataFrame:
-        orders = pd.read_csv('orders.csv', header=0)
+        orders = pd.read_csv('orders.csv', header=0, dtype={"orderId": str, "amount" : int, "customer": str, "date": str})
         return orders
 
     def enrich_orders(self, orders: pd.DataFrame, col_name: str, value: List[str]) -> pd.DataFrame:
@@ -27,7 +27,8 @@ class Transformer:
         Returns:
             The enriched dataframe
         """
-        pass
+        orders.insert(len(orders.columns) - 1 , col_name , value)
+        return orders
 
     def split_customers(self, orders: pd.DataFrame, threshold: int) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -40,7 +41,8 @@ class Transformer:
         Returns:
             Tuple containing the split dataframes
         """
-        pass
+        return (orders[orders['amount'] >= threshold], orders[orders['amount'] < threshold])
+
 
 
 if __name__ == '__main__':
@@ -50,6 +52,6 @@ if __name__ == '__main__':
     countries = ['GBR', 'AUS', 'USA', 'GBR', 'RUS', 'GBR', 'KOR', 'NZ']
     data = transformer.enrich_orders(data, 'Country', countries)
 
-    threshold = None  # Change this value
+    threshold = 599  # Change this value
     low_spending_customers, high_spending_customers = transformer.split_customers(data, threshold)
 
