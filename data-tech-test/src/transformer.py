@@ -43,7 +43,28 @@ class Transformer:
         """
         return (orders[orders['amount'] >= threshold], orders[orders['amount'] < threshold])
 
+# - BONUS TASKS: Which customer placed the highest order amount?
+    def max_customer(self, df: pd.DataFrame) -> str:
+        max = 0
+        customer = ""
+        for index, row in df.iterrows:
+            if(row['amount'] > max):
+                max = row['amount']
+                customer = row['customer']
+        return customer
+# - Which customer placed the lowest order amount?
+    def min_customer(self, df: pd.DataFrame) -> str:
+        min = float('inf')
+        customer = ""
+        for index, row in df.iterrows:
+            if(row['amount'] < min):
+                min = row['amount']
+                customer = row['customer']
+        return customer
 
+# - What was the average order amount across all customers?
+    def average_order(self, df: pd.DataFrame) -> int:
+        return df['amount'].mean()
 
 if __name__ == '__main__':
     transformer = Transformer()
